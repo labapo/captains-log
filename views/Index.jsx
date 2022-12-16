@@ -15,8 +15,10 @@ export default class Index extends Component {
                 return(
                   <li key={i}>
                     <a href={`/logs/${log.id}`}>
-                      {log.title}
-                    </a>
+                      {log.title}  </a><br />
+                      {log.entry} <br />
+                      {log.shipIsBroken?'Ship Broken': "Ship is not broken"}
+                
                   </li>
                 )
               })}

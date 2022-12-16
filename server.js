@@ -75,7 +75,9 @@ app.post('/logs', (req, res) => {
 })
 ///show - GET
 app.get('/logs/:id', function (req, res) {
-    res.render('Show')
+    Log.findById(req.params.id, (err, foundLog) =>{
+        res.render('Show', {log: foundLog})
+    })
 })
 ///edit - GET
 app.get('/logs/:id/edit', (req, res) =>{
