@@ -69,12 +69,24 @@ app.get('/logs/new', (req, res) => {
 })
 ///create - POST
 app.post('/logs', (req, res) => {
-    Log.create(req.body, (error, createdLog) =>{
+    //DESTRUCTURING to take the request body and save it's properties to individual varaibles 
+    // this is so I can process the checkbox
+    //curly braces is not creating an object, but telling js to take these properties and assign them to a new
+    const {title, entry, shipIsBroken} =req.body
+    const logBody = {
+        title,
+        entry,
+        shipIsBroken : !shipIsBroken? false: true
+    }
+    Log.create(logBody, (error, createdLog) =>{
         res.redirect('/logs')
     })
 })
+
+//destructuring to take the request body and save it's properties to individual varaibles 
+// this is so I can process the checkbox
 ///show - GET
-app.get('/logs/:id', function (req, res) {
+app.get('/logs/:id', (req, res) => {
     Log.findById(req.params.id, (err, foundLog) =>{
         res.render('Show', {log: foundLog})
     })
@@ -82,17 +94,19 @@ app.get('/logs/:id', function (req, res) {
 ///edit - GET
 app.get('/logs/:id/edit', (req, res) =>{
     Log.findById(req.params.id, (err, foundLog) =>{
-        res.render('Edit', {
-            log: foundLog
+        Log.findById(req.params.id, (err, foundLog)=>{
+            res.render('Edit', {
+                log: foundLog
+            })
         })
     })
 })
 ///update - PUT
-app.put('logs/:id', (req, res)=>{
-    Log.findByIdAndUpdate(req.params._id, req.body, (err, updatedLog) =>{
-        res.redirect(`/log/${req.params.id}`)
-    })
-})
+app.put('/logs/:id', (req, res)=>{
+    Log.findByIdAndUpdate(req.params.id, req.body, (err, updatedLog) =>{
+        res.redirect(`/logs/${req.params.id}`);
+    });
+});
 ///destroy - DELETE
 app.delete('/logs/:id', (req, res) =>{
     Log.findByIdAndRemove(req.params.id, (err, foundLog) =>{

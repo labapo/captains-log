@@ -18,7 +18,14 @@ export default class Index extends Component {
                       {log.title}  </a><br />
                       {log.entry} <br />
                       {log.shipIsBroken?'Ship Broken': "Ship is not broken"}
-                
+                    <form action = 
+                    {`/logs/${log._id}?_method=DELETE`} method="POST">
+                    <input type="submit" value="DELETE" />
+                    </form>
+                    <form action = 
+                    {`/logs/${log._id}/edit`}>
+                    <input type="submit" value="EDIT" />
+                    </form>
                   </li>
                 )
               })}
