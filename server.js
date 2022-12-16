@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 //////////OTHER REQUIRES
 ///schema
 const Log = require('./models/logs')
-const log = require('./models/logs')
+//const log = require('./models/logs')
  ///database connections
 const MONGO_URI = process.env.MONGO_URI;
 /// get rid of depreciate warnings
@@ -59,7 +59,9 @@ app.get('/', (req, res) =>{
 })
 ///index-GET
 app.get('/logs', (req, res) =>{
-    res.render('Index')
+    Log.find({}, (error, allLogs)=>{
+        res.render('Index', {log: allLogs})
+    })
 })
 ///new - GET
 app.get('/logs/new', (req, res) => {
@@ -67,7 +69,9 @@ app.get('/logs/new', (req, res) => {
 })
 ///create - POST
 app.post('/logs', (req, res) => {
-    res.send(req.body)
+    Log.create(req.body, (error, createdLog) =>{
+        res.redirect('/logs')
+    })
 })
 ///show - GET
 app.get('/logs/:id', function (req, res) {
