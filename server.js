@@ -54,7 +54,7 @@ app.use((req, res, next) => {
     next();
 });
 ///method override middleware
-pp.use(methodOverride('_method'));
+app.use(methodOverride('_method'));
 ///url encoded to get access to the body 
 app.use(express.urlencoded({extended:false}));//makes sure that you can get inside of the object and so that its not undefined
 
@@ -62,13 +62,17 @@ app.use(express.urlencoded({extended:false}));//makes sure that you can get insi
 
 
 //////////ROUTES
-
-
-
-
-
+app.get('/', (req, res) =>{
+    res.send('Captains Log Here!')
+})
 ///index-GET
+app.get('/logs', (req, res) =>{
+    res.send("Index Here!")
+})
 ///new - GET
+app.get('/logs/new', (req, res) => {
+    res.render('New')
+})
 ///create - POST
 ///show - GET
 ///edit - GET
