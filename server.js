@@ -4,18 +4,9 @@ const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
 
-
-
-
-
-
-
-
-
-
-
-
 //////////OTHER REQUIRES
+///schema
+const Log = require('./models/logs')
 ///database connections
 const MONGO_URI = process.env.MONGO_URI;
 /// get rid of depreciate warnings
@@ -74,7 +65,13 @@ app.get('/logs/new', (req, res) => {
     res.render('New')
 })
 ///create - POST
+app.post('/logs', (req, res) => {
+    res.send('received')
+})
 ///show - GET
+app.get('/logs/:id', function (req, res) {
+    res.render('Show')
+})
 ///edit - GET
 ///update - PUT
 ///destroy - DELETE
