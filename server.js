@@ -7,7 +7,8 @@ const mongoose = require("mongoose");
 //////////OTHER REQUIRES
 ///schema
 const Log = require('./models/logs')
-///database connections
+const log = require('./models/logs')
+ ///database connections
 const MONGO_URI = process.env.MONGO_URI;
 /// get rid of depreciate warnings
 const CONFIG = {
@@ -58,7 +59,7 @@ app.get('/', (req, res) =>{
 })
 ///index-GET
 app.get('/logs', (req, res) =>{
-    res.send("Index Here!")
+    res.render('Index')
 })
 ///new - GET
 app.get('/logs/new', (req, res) => {
@@ -66,16 +67,32 @@ app.get('/logs/new', (req, res) => {
 })
 ///create - POST
 app.post('/logs', (req, res) => {
-    res.send('received')
+    res.send(req.body)
 })
 ///show - GET
 app.get('/logs/:id', function (req, res) {
     res.render('Show')
 })
 ///edit - GET
+app.get('/logs/:id/edit', (req, res) =>{
+    Log.findById(req.params.id, (err, foundLog) =>{
+        res.render('Edit', {
+            log: foundLog
+        })
+    })
+})
 ///update - PUT
+app.put('logs/:id', (req, res)=>{
+    Log.findByIdAndUpdate(req.params._id, req.body, (err, updatedLog) =>{
+        res.redirect(`/log/${req.params.id}`)
+    })
+})
 ///destroy - DELETE
-
+app.delete('/logs/:id', (req, res) =>{
+    Log.findByIdAndRemove(req.params.id, (err, foundLog) =>{
+        res.redirect('/logs')
+    })
+})
 
 //////////listening
 app.listen(8000, function () {
